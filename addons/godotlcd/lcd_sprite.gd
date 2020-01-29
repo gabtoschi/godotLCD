@@ -26,6 +26,8 @@ func _enter_tree():
 		generateChildList()
 
 func generateChildList():
+	childNodes[self.get_name()] = self
+
 	for node in self.get_children():
 		if node is LCDSprite:
 			childNodes[node.get_name()] = node
@@ -34,23 +36,24 @@ func generateChildList():
 				node.generateChildList()
 				for childKey in node.childNodes.keys():
 					childNodes[childKey] = node.childNodes[childKey]
+	print(childNodes)
 
-func onNode(node):
-	if node is LCDSprite:
+func onNode(nodeName):
+	if childNodes.has(nodeName):
 		if offBehavior == LCDDisableType.DISABLE:
-			node.set_visible(true)
+			childNodes[nodeName].set_visible(true)
 		else:
-			node.set_modulate(onColor)
+			childNodes[nodeName].set_modulate(onColor)
 
 func on():
-	onNode(self)
+	onNode(self.get_name())
 
-func offNode(node):
-	if node is LCDSprite:
+func offNode(nodeName):
+	if childNodes.has(nodeName):
 		if offBehavior == LCDDisableType.DISABLE:
-			node.set_visible(false)
+			childNodes[nodeName].set_visible(false)
 		else:
-			node.set_modulate(offColor)
+			childNodes[nodeName].set_modulate(offColor)
 
 func off():
-	offNode(self)
+	offNode(self.get_name())
