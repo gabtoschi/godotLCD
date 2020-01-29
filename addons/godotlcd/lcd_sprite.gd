@@ -36,7 +36,6 @@ func generateChildList():
 				node.generateChildList()
 				for childKey in node.childNodes.keys():
 					childNodes[childKey] = node.childNodes[childKey]
-	print(childNodes)
 
 func onNode(nodeName):
 	if childNodes.has(nodeName):
